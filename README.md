@@ -5,7 +5,7 @@ A toy LISP interpreter in Rust.
 `cargo build`
 
 # Using
-`rasp file1.rasp [ file2.rasp ... ]
+`rasp file1.rasp [ file2.rasp ... ]`
 
 # Current status:
 [x] Parser
