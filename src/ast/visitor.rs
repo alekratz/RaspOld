@@ -1,5 +1,4 @@
-use ast::expression::*;
-use ast::atom::*;
+use ast::*;
 
 pub trait Visitor<R> {
     fn visit_expression(&self, expr: &Expression) -> R;

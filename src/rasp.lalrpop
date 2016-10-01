@@ -1,10 +1,7 @@
 #[LALR]
 grammar();
 
-use ast::Expression;
-use ast::Atom;
-use ast::IfElse;
-use internal::Function;
+use ast::*;
 
 pub CompileUnit: Vec<Expression> = {
     <e:Expr*> => e,

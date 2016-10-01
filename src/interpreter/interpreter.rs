@@ -1,7 +1,7 @@
 use std::collections::HashMap;
-use ast::{Atom,atom_is_true};
+use ast::*;
 use ast::visitor::MutVisitor;
-use internal::{Function,Bytecode};
+use internal::Bytecode;
 use interpreter::BytecodeGen;
 
 pub struct Interpreter {

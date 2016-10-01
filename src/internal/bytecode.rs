@@ -1,5 +1,4 @@
-use internal::Function;
-use ast::{Atom,Expression};
+use ast::*;
 
 #[derive(Clone, Debug)]
 pub enum Bytecode {

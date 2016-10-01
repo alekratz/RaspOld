@@ -1,5 +1,4 @@
-use ast::Atom;
-use internal::Function;
+use ast::{Atom,Function,IfElse};
 
 #[derive(Clone, Debug)]
 pub enum Expression {
@@ -8,11 +7,4 @@ pub enum Expression {
     Unit,
     FunDef(Function),
     IfElse(Box<IfElse>),
-}
-
-#[derive(Clone, Debug)]
-pub struct IfElse { 
-    pub condition: Expression, 
-    pub if_true: Expression, 
-    pub if_false: Option<Expression>
 }
