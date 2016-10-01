@@ -1,0 +1,15 @@
+[package]
+name = "rasp"
+version = "0.1.0"
+authors = ["Alek Ratzloff <alekratz@gmail.com>"]
+build = "build.rs"
+
+[dependencies]
+
+[dependencies.lalrpop-util]
+# git = "https://github.com/nikomatsakis/lalrpop
+# branch = "master"
+version = "0.12.0"
+
+[build-dependencies.lalrpop]
+version = "0.12.0"

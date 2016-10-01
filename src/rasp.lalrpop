@@ -1,0 +1,44 @@
+#[LALR]
+grammar();
+
+use ast::Expression;
+use ast::Atom;
+use ast::IfElse;
+use internal::Function;
+
+pub CompileUnit: Vec<Expression> = {
+    <e:Expr*> => e,
+};
+
+Expr: Expression = {
+    <a:Atom> => Expression::Atom(a),
+    "(" <f:FunDef> ")" => Expression::FunDef(f),
+    "(" <i:IfElse> ")" => Expression::IfElse(Box::new(i)),
+    "(" <c:Expr+> ")" => Expression::Children(c),
+    "(" ")" => Expression::Unit,
+};
+
+IfElse: IfElse = {
+    "&if" <condition:Expr> <if_true:Expr> => IfElse { condition: condition, if_true: if_true, if_false: None },
+    "&if" <condition:Expr> <if_true:Expr> "&else" <if_false:Expr> => IfElse { condition: condition, if_true: if_true, if_false: Some(if_false) },
+};
+
+FunDef: Function = {
+    "&fun" <name:Identifier> <args:FunArgs> <exprs:Expr*> => Function::new(name, args, exprs)
+};
+
+FunArgs: Vec<String> = { 
+    "(" <args:Identifier*> ")" => args,
+};
+
+Atom: Atom = {
+    <i:r"[1-9][0-9]*"> => Atom::IntLit(i.parse::<i64>().unwrap()),
+    "0" => Atom::IntLit(0),
+    <i:r"[0-9]+\.[0-9]+"> => Atom::DubLit(i.parse::<f64>().unwrap()),
+    <s:r#"".*""#> => Atom::StrLit(s.to_string()),
+    <i:Identifier> => Atom::Identifier(i),
+};
+
+Identifier: String = {
+    <n:r"[a-zA-Z=+_&\\-][a-zA-Z0-9=+_&\\-]*"> => n.to_string(),
+};
