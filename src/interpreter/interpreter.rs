@@ -66,6 +66,11 @@ impl Interpreter {
                 &Bytecode::FunDef(ref func) => {
                     self.functions.insert(func.name.to_string(), func.clone());
                 },
+                &Bytecode::Label(ref lnum) => { /* ignore */ },
+                &Bytecode::Jump(ref lnum) => { /* Jumps to a label that we've discovered (TODO) */},
+                &Bytecode::JumpEq(_, _, _) => { /* Jumps to a label that we've discovered (TODO) */},
+                &Bytecode::JumpGt(_, _, _) => { /* Jumps to a label that we've discovered (TODO) */},
+                &Bytecode::JumpLt(_, _, _) => { /* Jumps to a label that we've discovered (TODO) */},
             }
             index += 1;
         }
