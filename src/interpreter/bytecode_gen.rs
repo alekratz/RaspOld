@@ -7,6 +7,7 @@ pub struct BytecodeGen {
     pub errors: Vec<String>,
     pub warnings: Vec<String>,
     pub bytecode: Vec<Bytecode>,
+    label_count: u64,
 }
 
 impl BytecodeGen {
@@ -15,7 +16,13 @@ impl BytecodeGen {
             errors: vec![],
             warnings: vec![],
             bytecode: vec![],
+            label_count: 0u64,
         }
+    }
+
+    pub fn next_label(&mut self) -> u64 {
+        self.label_count += 1;
+        self.label_count - 1
     }
 
     pub fn was_err(&self) -> bool {
@@ -101,6 +108,16 @@ impl MutVisitor<()> for BytecodeGen {
     }
 
     fn visit_ifelse(&mut self, ifelse: &IfElse) {
-
+        self.visit_expression(&ifelse.condition);
+        let truelabel = self.next_label();
+        self.bytecode.push(Bytecode::JumpTrue(truelabel));
+        if let Some(ref if_false) = ifelse.if_false {
+            self.visit_expression(if_false);
+        }
+        let donelabel = self.next_label();
+        self.bytecode.push(Bytecode::Jump(donelabel));
+        self.bytecode.push(Bytecode::Label(truelabel));
+        self.visit_expression(&ifelse.if_true);
+        self.bytecode.push(Bytecode::Label(donelabel));
     }
 }

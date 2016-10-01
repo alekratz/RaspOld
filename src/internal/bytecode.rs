@@ -10,10 +10,5 @@ pub enum Bytecode {
     FunDef(Function),       // Defines a function that will be compiled upon its first use
     Label(u64),             // Defines a location that can be jumped to
     Jump(u64),              // Jumps to a label that's been defined
-    JumpEq(u64, Expression, Expression),
-                            // Jumps to a label based on the equality of two expressions
-    JumpGt(u64, Expression, Expression),
-                            // Jumps to a label based on whether the first expression is greater than the second
-    JumpLt(u64, Expression, Expression),
-                            // Jumps to a label based on whether the first expression is less than the second
+    JumpTrue(u64),          // Pops an expression off of the stack and jumps if that value can be considered "true"
 }

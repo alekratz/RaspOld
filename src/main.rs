@@ -60,10 +60,6 @@ fn main() {
         }
 
         if gen.errors.len() == 0 {
-            println!("Bytecode dump:");
-            for b in &gen.bytecode {
-                println!("{:?}", b);
-            }
             // Interpret
             let mut interp = Interpreter::new();
             if let Err(err) = interp.interpret(&gen.bytecode) {
