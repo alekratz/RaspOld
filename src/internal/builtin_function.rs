@@ -67,39 +67,30 @@ fn print_builtin(context: BuiltinContext) -> Result<Atom, String> {
     }
 }
 
+fn unwrap_arg<'a>(context: &'a BuiltinContext, n: usize) -> Result<&'a Atom, String> {
+    let ref args = context.args;
+    let ref var = args[n];
+    if let &Atom::Identifier(ref s) = var {
+        if let Some(atom) = context.get_var(s) {
+            Ok(atom)
+        }
+        else {
+            Err(format!("Undefined variable: {}", s))
+        }
+    }
+    else {
+        Ok(var)
+    }
+}
+
 fn equals_builtin(context: BuiltinContext) -> Result<Atom, String> {
     let ref args = context.args;
     if args.len() != 2 {
         Err(format!("Invalid number of arguments for `=='; got {} but expected exactly 2", args.len()))
     }
     else {
-        let ref lhs = args[0];
-        let ref rhs = args[1];
-        
-        let lhs_result = if let &Atom::Identifier(ref s) = lhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(lhs)
-            };
-        let rhs_result = if let &Atom::Identifier(ref s) = rhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(rhs)
-            };
+        let lhs_result = unwrap_arg(&context, 1);
+        let rhs_result = unwrap_arg(&context, 0);
         
         if lhs_result.is_err() {
             Err(lhs_result.unwrap_err())
@@ -134,32 +125,9 @@ fn minus_builtin(context: BuiltinContext) -> Result<Atom, String> {
     }
     else if args.len() == 2 {
         // do this in reverse because stacks
-        let ref lhs = args[1];
-        let ref rhs = args[0];
-        let lhs_result = if let &Atom::Identifier(ref s) = lhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(lhs)
-            };
-        let rhs_result = if let &Atom::Identifier(ref s) = rhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(rhs)
-            };
+        let lhs_result = unwrap_arg(&context, 1);
+        let rhs_result = unwrap_arg(&context, 0);
+        // TODO : look up error chain
         if lhs_result.is_err() {
             Err(lhs_result.unwrap_err())
         }
@@ -182,32 +150,9 @@ fn times_builtin(context: BuiltinContext) -> Result<Atom, String> {
     let ref args = context.args;
     if args.len() == 2 {
         // do this in reverse because stacks
-        let ref lhs = args[1];
-        let ref rhs = args[0];
-        let lhs_result = if let &Atom::Identifier(ref s) = lhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(lhs)
-            };
-        let rhs_result = if let &Atom::Identifier(ref s) = rhs {
-                // Get the value
-                if let Some(atom) = context.get_var(s) {
-                    Ok(atom)
-                }
-                else {
-                    Err(format!("Undefined variable: {}", s))
-                }
-            }
-            else {
-                Ok(rhs)
-            };
+        let lhs_result = unwrap_arg(&context, 1);
+        let rhs_result = unwrap_arg(&context, 0);
+        
         if lhs_result.is_err() {
             Err(lhs_result.unwrap_err())
         }
