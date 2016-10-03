@@ -31,11 +31,21 @@ FunArgs: Vec<String> = {
 Atom: Atom = {
     <i:r"[1-9][0-9]*"> => Atom::IntLit(i.parse::<i64>().unwrap()),
     "0" => Atom::IntLit(0),
-    <i:r"[0-9]+\.[0-9]+"> => Atom::DubLit(i.parse::<f64>().unwrap()),
-    <s:r#"".*""#> => Atom::StrLit(s.to_string()),
+    <i:r"-?[0-9]+\.[0-9]+"> => Atom::DubLit(i.parse::<f64>().unwrap()),
+    <s:r#"".*""#> => {
+            let rev1: String = s.chars()
+                .rev()
+                .skip(1)
+                .collect();
+            Atom::StrLit(rev1
+                .chars()
+                .rev()
+                .skip(1)
+                .collect())
+        },
     <i:Identifier> => Atom::Identifier(i),
 };
 
 Identifier: String = {
-    <n:r"[a-zA-Z=+_&\\-][a-zA-Z0-9=+_&\\-]*"> => n.to_string(),
+    <n:r"[a-zA-Z=+_&*\\-][a-zA-Z0-9=+_&*\\-]*"> => n.to_string(),
 };
