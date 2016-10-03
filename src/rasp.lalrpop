@@ -43,8 +43,8 @@ Atom: Atom = {
                 .skip(1)
                 .collect())
         },
-    "&tru" => Atom::BoolLit(true),
-    "&nah" => Atom::BoolLit(false),
+    "@tru" => Atom::BoolLit(true),
+    "@nah" => Atom::BoolLit(false),
     <i:Identifier> => Atom::Identifier(i),
 };
 
