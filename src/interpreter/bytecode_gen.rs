@@ -11,11 +11,15 @@ pub struct BytecodeGen {
 }
 
 impl BytecodeGen {
-    pub fn new() -> BytecodeGen {
+    pub fn new(args: &Vec<String>) -> BytecodeGen {
+        let mut instructions = vec![];
+        for a in args {
+            instructions.push(Bytecode::Pop(Some(a.clone())));
+        }
         BytecodeGen { 
             errors: vec![],
             warnings: vec![],
-            bytecode: vec![],
+            bytecode: instructions,
             label_count: 0u64,
         }
     }

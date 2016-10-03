@@ -50,7 +50,7 @@ fn main() {
         }
 
         let expr_list = result.unwrap();
-        let mut gen = BytecodeGen::new();
+        let mut gen = BytecodeGen::new(&vec![]);
         for ast in expr_list {
             gen.visit_expression(&ast);
         }
