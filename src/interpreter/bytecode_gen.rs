@@ -70,6 +70,9 @@ impl BytecodeGen {
                 &Atom::DubLit(_) => 
                     if children.len() > 1 { self.err("Invalid function call with float literal".to_string()) }
                     else { self.visit_atom(a); },
+                &Atom::BoolLit(_) => 
+                    if children.len() > 1 { self.err("Invalid function call with bool literal".to_string()) }
+                    else { self.visit_atom(a); },
                 &Atom::StrLit(ref s) =>
                     if children.len() > 1 { fun_name = Some(s.clone()); } // we can use strings to call functions 
                     else { self.visit_atom(a); },

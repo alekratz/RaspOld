@@ -5,6 +5,7 @@ mod internal;
 mod interpreter;
 
 extern crate lalrpop_util;
+extern crate num;
 
 use std::env;
 use std::fs::File;
